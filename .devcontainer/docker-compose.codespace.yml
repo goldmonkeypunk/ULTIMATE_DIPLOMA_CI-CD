@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  # переопределяем only то, что нужно поверх оригинального файла
+  sample-flask:
+    build:
+      context: ..                # собираем образ из вашего кода
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/code:delegated       # горячий маунт исходников
+    command: ["opentelemetry-instrument", "python", "./app.py"]
+    environment:
+      MONGO_URI: mongodb://root:examplepwd@mongodb:27017
+      OTEL_RESOURCE_ATTRIBUTES: service.name=sample-flask
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://signoz:4317

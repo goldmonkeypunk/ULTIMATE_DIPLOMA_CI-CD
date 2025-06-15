@@ -10,12 +10,12 @@ services:
       - "27017:27017"
 
   sample-flask:
-    image: signoz/sample-flask-app:latest   # будет переопределён в dev‑container
+    image: signoz/sample-flask-app:latest
     container_name: sample-flask
     ports:
-      - "5000:5000"                         # единый порт внутри и снаружи
+      - "5000:5000"
     extra_hosts:
-      - signoz:host-gateway                 # оставляем как в оригинале
+      - signoz:host-gateway
     depends_on:
       - mongodb
     environment:

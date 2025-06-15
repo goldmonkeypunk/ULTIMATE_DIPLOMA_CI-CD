@@ -4,9 +4,9 @@ services:
       context: ..
       dockerfile: Dockerfile
     ports:
-      - "5000:5000"          # сохраняем порт после мерджа
+      - "5000:5000"
     volumes:
-      - ..:/code:delegated   # live-маунт исходников
-    command: ["python", "./app.py"]   # без OTel, чтобы исключить внешние сервисы
+      - ..:/code:delegated
+    command: ["python", "./app.py"]          # команда останется, т.к. overrideCommand = false
     environment:
       MONGO_URI: mongodb://root:examplepwd@mongodb:27017

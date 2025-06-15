@@ -1,30 +1,31 @@
 {
   "name": "ultimate-diploma-cicd",
 
-  // используем базовый compose + оверрайд для Codespace
+  // подключаем основной compose-файл + override
   "dockerComposeFile": [
     "../docker-compose.yaml",
     "docker-compose.codespace.yml"
   ],
 
-  "service": "sample-flask",      // имя сервиса из docker-compose.yaml
+  // имя сервиса, который станет рабочей средой VS Code
+  "service": "sample-flask",
   "workspaceFolder": "/code",
 
-  // пробрасываем порт приложения
-  "forwardPorts": [5002],
+  // автоматический форвард порта приложения
+  "forwardPorts": [5000],
   "portsAttributes": {
-    "5002": {
+    "5000": {
       "label": "Flask Web UI",
       "onAutoForward": "openPreview"
     }
   },
 
-  // устанавливаем зависимости в контейнере
+  // если нужны дополнительные Python‑зависимости
   "postCreateCommand": "pip install --upgrade pip && pip install -r /code/requirements.txt",
 
   "remoteUser": "root",
 
-  // рекомендуемые расширения теперь через блок customizations → vscode
+  // рекомендуемые расширения VS Code (новый синтаксис)
   "customizations": {
     "vscode": {
       "extensions": [

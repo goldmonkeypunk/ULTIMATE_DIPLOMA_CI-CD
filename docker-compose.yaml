@@ -1,25 +1,24 @@
-version: "2.4"
 services:
   mongodb:
-    image: "mongo:latest"
+    image: mongo:latest
     container_name: mongodb
-    hostname: mongodb
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: examplepwd
     ports:
-      - 27017:27017
+      - "27017:27017"
 
   sample-flask:
-    image: "signoz/sample-flask-app:latest"
+    image: signoz/sample-flask-app:latest   # будет переопределён в dev‑container
     container_name: sample-flask
-    hostname: sample-flask
     ports:
-      - 5002:5002
+      - "5000:5000"                         # единый порт внутри и снаружи
     extra_hosts:
-      - signoz:host-gateway
+      - signoz:host-gateway                 # оставляем как в оригинале
+    depends_on:
+      - mongodb
     environment:
       MONGO_URI: mongodb://root:examplepwd@mongodb:27017
       OTEL_RESOURCE_ATTRIBUTES: service.name=sample-flask
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://signoz:4317  # Replace to appropriate SigNoz OtelCollector endpoint, if applicable
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://signoz:4317

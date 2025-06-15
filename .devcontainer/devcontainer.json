@@ -5,10 +5,10 @@
     "docker-compose.codespace.yml"
   ],
   "service": "sample-flask",
-  "overrideCommand": false,          // не затираем команду контейнера
+  "overrideCommand": false,
   "workspaceFolder": "/code",
 
-  "forwardPorts": [5002],            // пробрасываем 5002
+  "forwardPorts": [5002],
   "portsAttributes": {
     "5002": {
       "label": "Flask Web UI",

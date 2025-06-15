@@ -1,12 +1,11 @@
 services:
   sample-flask:
-    build:
-      context: ..
-      dockerfile: Dockerfile
+    image: signoz/sample-flask-app:latest   # <-- убрали build
     ports:
-      - "5000:5000"
+      - "5002:5002"
     volumes:
-      - ..:/code:delegated
-    command: ["python", "./app.py"]          # команда останется, т.к. overrideCommand = false
+      - ..:/code:delegated                 # live-маунт исходников
+    working_dir: /code
+    command: ["python", "./app.py"]        # запускаем твой app.py
     environment:
       MONGO_URI: mongodb://root:examplepwd@mongodb:27017

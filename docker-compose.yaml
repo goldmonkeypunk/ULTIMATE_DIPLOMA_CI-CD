@@ -1,24 +1,12 @@
 services:
-  mongodb:
-    image: mongo:latest
-    container_name: mongodb
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: examplepwd
-    ports:
-      - "27017:27017"
-
   sample-flask:
-    image: signoz/sample-flask-app:latest
-    container_name: sample-flask
+    build:
+      context: ..
+      dockerfile: Dockerfile
     ports:
-      - "5000:5000"
-    extra_hosts:
-      - signoz:host-gateway
-    depends_on:
-      - mongodb
+      - "5002:5002"        # тот же порт
+    volumes:
+      - ..:/code:delegated
+    command: ["python", "./app.py"]   # без OTel, чтобы исключить внешний сервис
     environment:
       MONGO_URI: mongodb://root:examplepwd@mongodb:27017
-      OTEL_RESOURCE_ATTRIBUTES: service.name=sample-flask
-      OTEL_EXPORTER_OTLP_ENDPOINT: http://signoz:4317
